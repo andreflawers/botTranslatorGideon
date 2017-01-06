@@ -2,10 +2,16 @@
   "name": "bottranslatorgideon",
   "version": "0.1.0",
   "description": "translator bot from messenger",
+  "repository": "https://github.com/andreflawers/botTranslatorGideon",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Flavio Torres Vargas",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.5.1",
+    "restify": "^4.3.0"
+  }
 }
