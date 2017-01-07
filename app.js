@@ -2,7 +2,7 @@ var builder = require('botbuilder');
 var restify = require('restify');
 var botConnectorOptions = { 
     appId: process.env.BOTFRAMEWORK_APPID, 
-    appSecret: process.env.BOTFRAMEWORK_APPSECRET 
+    appPassword: process.env.BOTFRAMEWORK_APPSECRET 
 };
 
 var server = restify.createServer();
