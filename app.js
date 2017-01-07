@@ -17,5 +17,5 @@ bot.dialog('/',[function (session) {
 }]);
 
 bot.dialog('/ensureProfile',[
-    function (session,) {  }
+    function (session,args,next) {  }
 ]);
