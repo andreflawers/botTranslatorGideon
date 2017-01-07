@@ -1,16 +1,17 @@
 var builder = require('botbuilder');
 var restify = require('restify');
 var botConnectorOptions = { 
-    appId: process.env.BOTFRAMEWORK_APPID, 
+
+appId: process.env.BOTFRAMEWORK_APPID, 
     appPassword: process.env.BOTFRAMEWORK_APPSECRET 
-};
+ };
 
 var server = restify.createServer();
 server.listen(process.env.port||process.env.PORT||3978,function () { 
     console.log('%s listening to %s',server.name,server.url);
  });
 
-var connector = new builder.ChatConnector();
+var connector = new builder.ChatConnector(botConnectorOptions);
 var bot = new builder.UniversalBot(connector);
 server.get('/.*/',restify.serveStatic({
     'directory':'.',
