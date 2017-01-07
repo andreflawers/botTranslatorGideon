@@ -8,7 +8,10 @@ server.listen(process.env.port||process.env.PORT||3978,function () {
 
 var connector = new builder.ChatConnector();
 var bot = new builder.UniversalBot(connector);
-
+server.get('/.*/',restify.serveStatic({
+    'directory':'.',
+    'default':'index.html'
+}));
 server.post('/api/messages',connector.listen());
 bot.dialog('/',[function (session) {  
     session.beginDialog('/ensureProfile',session.userData.profile);
