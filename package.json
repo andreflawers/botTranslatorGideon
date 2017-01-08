@@ -1,0 +1,17 @@
+{
+  "name": "bottranslatorgideon",
+  "version": "1.0.0",
+  "description": "translator bot from messenger",
+  "repository": "https://github.com/andreflawers/botTranslatorGideon",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"    
+  },
+  "author": "Flavio Torres Vargas",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.5.1",
+    "restify": "^4.3.0",
+    "xml2js": "^0.4.17"
+  }
+}
