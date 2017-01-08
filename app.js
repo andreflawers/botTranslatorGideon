@@ -5,8 +5,8 @@ var parseString = require('xml2js').parseString;
 
 var botConnectorOptions = {
 
-    appId: '324f8eae-2b3b-4ee9-a767-f0e75a9c19ea',
-    appPassword: 'BRax17KiinxpiAZgfKJkK73'
+    appId: process.env.BOTFRAMEWORK_APPID,
+    appPassword: process.env.BOTFRAMEWORK_APPSECRET
 };
 var textoTraducir = '';
 var server = restify.createServer();
@@ -43,7 +43,7 @@ bot.dialog('/translateImage', [
 
         var postOptions = {
             headers: {
-                "Ocp-Apim-Subscription-Key": "585f715a968340f89cb2455c38fe5c0e"
+                "Ocp-Apim-Subscription-Key": process.env.OCR_API__SUB
             },
             url: "http://api.projectoxford.ai/vision/v1.0/ocr?language=unk&detectOrientation=true",
             encoding: 'binary',
@@ -73,7 +73,8 @@ bot.dialog('/translateImage', [
                 { console.log(error); }
                 else {
                     console.log(textTranslated);
-                    session.endDialog(textTranslated);
+                    session.send(textTranslated);
+                    session.replaceDialog('/');
                     textoTraducir = '';
                 }
             });
@@ -92,7 +93,7 @@ bot.dialog('/translateText', [function (session) {
     request.post(
         {
             headers: {
-                'Ocp-Apim-Subscription-Key': '83221201a8634cb0a5498edc1799cf97',
+                'Ocp-Apim-Subscription-Key': process.env.TEXTANALYTICS_SUB,
                 'Content-Type': 'application/json'
             },
             url: 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages',
@@ -101,14 +102,22 @@ bot.dialog('/translateText', [function (session) {
     if (error)
     { console.error(error) }
     var bodyJson = JSON.parse(body);
-    console.log('lenguaje :'+ bodyJson.documents[0].detectedLanguages[0].iso6391Name);
-    textoTraducir = '';
-}
+    language=bodyJson.documents[0].detectedLanguages[0].iso6391Name;
+    translating(function (error, textTranslated) {
+                if (error)
+                { console.log(error); }
+                else {
+                    console.log(textTranslated);
+                    session.send(textTranslated);
+                    session.replaceDialog('/');
+                    textoTraducir = '';
+                }
+            });
 
-);
-
-
-
+    });
+    
+    
+    
 }]);
 
 bot.dialog('/firstRun', [
@@ -119,8 +128,9 @@ bot.dialog('/firstRun', [
             .attachments([{
                 contentType: 'image/gif',
                 contentUrl: 'http://media3.giphy.com/media/13HBDT4QSTpveU/200.gif'
-            }]);
-        session.endDialog(msg);
+            }]);        
+        session.send(msg);
+        session.replaceDialog('/');
 
     }
 
@@ -140,7 +150,7 @@ const translating = function (callback) {
         headers: {
             'Content-Type': 'application/json',
             'Accept': ' application/jwt',
-            'Ocp-Apim-Subscription-Key': '4f8df7892de74d76a662d9a2166ce4f6'
+            'Ocp-Apim-Subscription-Key': process.env.TRANSLATOR_SUB
 
         }
     }, function (error, response, body) {
