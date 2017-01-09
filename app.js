@@ -46,13 +46,15 @@ bot.dialog('/translateImage', [
                 "Ocp-Apim-Subscription-Key": process.env.OCR_API__SUB
             },
             url: "http://api.projectoxford.ai/vision/v1.0/ocr?language=unk&detectOrientation=true",
-            encoding: 'binary',
+            body: '{"url":"'+imageUrl+'"}'
         };
-        request.get(imageUrl).pipe(request.post(postOptions, function (error, response, body) {
+        request.post(postOptions, function (error, response, body) {
             console.log('execute post');
+            
             if (error) {
                 console.log(error);
             }
+            session.send(body);
             var resultOCR = JSON.parse(body);
             language = resultOCR.language;
             console.log('text language:  %s', resultOCR.language);
@@ -78,7 +80,7 @@ bot.dialog('/translateImage', [
                     textoTraducir = '';
                 }
             });
-        }));
+        });
 
 
         textoTraducir = '';
