@@ -40,7 +40,7 @@ bot.dialog('/translateImage', [
     },
     function (session, result) {
         var imageUrl = result.response[0].contentUrl;
-
+        session.send(imageUrl);
         var postOptions = {
             headers: {
                 "Ocp-Apim-Subscription-Key": process.env.OCR_API__SUB
