@@ -40,7 +40,7 @@ bot.dialog('/translateImage', [
     },
     function (session, result) {
         var imageUrl = result.response[0].contentUrl;
-        session.send(imageUrl);
+        
         var postOptions = {
             headers: {
                 "Ocp-Apim-Subscription-Key": process.env.OCR_API__SUB
@@ -54,7 +54,7 @@ bot.dialog('/translateImage', [
             if (error) {
                 console.log(error);
             }
-            session.send(body);
+            
             var resultOCR = JSON.parse(body);
             language = resultOCR.language;
             console.log('text language:  %s', resultOCR.language);
